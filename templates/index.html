@@ -27,6 +27,53 @@
           <h1>Video Streaming</h1>
           <img src="{{ url_for('static', filename='Header.webp') }}" alt="Image header" width="50%">
      </div>
-     <img src="{{ url_for('video_stream') }}">
+     
+     <div class="video-container">
+         <h2>Streaming desde la ESP32-CAM</h2>
+         <form method="GET" action="/video">
+             <button type="submit">Iniciar Video</button>
+         </form>
+     </div>
+
+     <!-- Contenedor para mostrar el video (si se está visualizando) -->
+     {% if show_video %}
+     <img src="{{ url_for('video_stream') }}" width="640" height="480" />
+     {% endif %}
+
+     <hr>
+     <div class="form-container">
+         <h2>Procesamiento Morfológico de Imágenes Médicas</h2>
+         <form method="POST" action="/procesar">
+              <label>Imagen:</label>
+              <select name="image">
+                <option value="images.jpg">Cráneo</option>
+                <option value="images1.jpg">Piernas</option>
+                <option value="images2.jpg">Neurona</option>
+              </select>
+
+              <label>Operación:</label>
+              <select name="operation">
+                <option value="erosion">Erosión</option>
+                <option value="dilation">Dilatación</option>
+                <option value="tophat">Top Hat</option>
+                <option value="blackhat">Black Hat</option>
+                <option value="combined">Original + (TopHat - BlackHat)</option>
+              </select>
+
+              <label>Kernel:</label>
+              <select name="kernel">
+                <option value="15">15x15</option>
+                <option value="25">25x25</option>
+                <option value="37">37x37</option>
+              </select>
+              <br><br>
+              <button type="submit">Procesar Imagen</button>
+         </form>
+     </div>
+
+     {% if result_image %}
+     <h3>Resultado:</h3>
+     <img src="{{ url_for('static', filename='results/resultado.jpg') }}" alt="Resultado" width="60%">
+     {% endif %}
 </body>
 </html>
